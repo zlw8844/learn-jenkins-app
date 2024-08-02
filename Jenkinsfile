@@ -8,6 +8,13 @@ pipeline {
     }
 
     stages {
+
+        stage('docker') {
+            steps {
+                sh 'docker build -t my-playwright .'
+            }
+        }
+        
         // This is a comment
         /*
         line 1
