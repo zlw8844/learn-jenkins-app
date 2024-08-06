@@ -10,6 +10,37 @@ pipeline {
     }
 
     stages {
+
+        // This is a comment
+        /*
+        line 1
+        line 2
+        line 3
+        */
+        stage('Build app') {
+            agent {
+                docker {
+                    image 'my-playwright'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    ls -la
+                    node --version
+                    npm --version
+                    npm ci
+                    npm run build
+                    ls -la
+                '''
+            }
+        }
+
+        stage('Build docker image') {
+            steps {
+                sh 'docker build -t myjenkinsapp .'
+            }
+        }
         
         stage('Deploy to AWS'){
             agent {
@@ -35,30 +66,7 @@ pipeline {
             }
         }
 
-        // This is a comment
-        /*
-        line 1
-        line 2
-        line 3
-        */
-        stage('Build') {
-            agent {
-                docker {
-                    image 'my-playwright'
-                    reuseNode true
-                }
-            }
-            steps {
-                sh '''
-                    ls -la
-                    node --version
-                    npm --version
-                    npm ci
-                    npm run build
-                    ls -la
-                '''
-            }
-        }
+
 
 
 
