@@ -2,12 +2,35 @@ pipeline {
     agent any
 
     environment {
-        NETLIFY_SITE_ID = 'a69de878-bef5-4584-8613-7c9cb7352c5d'
-        NETLIFY_AUTH_TOKEN = credentials('netflix-token')
         REACT_APP_VERSION = "1.0.$BUILD_ID"
     }
 
     stages {
+        stage('Deploy to AWS'){
+            agent {
+                docker {
+                    image 'amazon/aws-cli'
+                    args "--entrypoint=''"
+                    reuseNode true
+                }
+            }
+
+            environment {
+            }
+
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'my-aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    // some block
+                    sh '''
+                        aws --version
+                        // aws s3 sync build  s3://$AWS_S3_BUCKET
+                        aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json
+                    '''
+                }
+
+            }
+        }
+
         // This is a comment
         /*
         line 1
@@ -33,31 +56,9 @@ pipeline {
             }
         }
 
-        stage('AWS'){
-            agent {
-                docker {
-                    image 'amazon/aws-cli'
-                    args "--entrypoint=''"
-                    reuseNode true
-                }
-            }
 
-            environment {
-                AWS_S3_BUCKET = 'learn-jenkins-20240805'
-            }
 
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'my-aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-                    // some block
-                    sh '''
-                        aws --version
-                        aws s3 sync build  s3://$AWS_S3_BUCKET
-                    '''
-                }
-
-            }
-        }
-
+        /*
         stage('Run Tests') {
             parallel {
 
@@ -109,7 +110,6 @@ pipeline {
 
             }
         }
-
     
         stage('Staging deploy and E2E') {
             agent {
@@ -172,5 +172,6 @@ pipeline {
                 }
             }
         }
+        */
     }
 }
