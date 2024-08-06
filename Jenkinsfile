@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         REACT_APP_VERSION = "1.0.$BUILD_ID"
+        AWS_DEFAULT_REGION = 'us-east-1'
     }
 
     stages {
@@ -13,9 +14,6 @@ pipeline {
                     args "--entrypoint=''"
                     reuseNode true
                 }
-            }
-
-            environment {
             }
 
             steps {
