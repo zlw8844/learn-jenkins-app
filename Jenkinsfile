@@ -7,6 +7,7 @@ pipeline {
     }
 
     stages {
+        
         stage('Deploy to AWS'){
             agent {
                 docker {
