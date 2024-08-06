@@ -7,7 +7,7 @@ pipeline {
         AWS_ECS_CLUSTER = 'LearnJenkinsApp-Cluster-Prod'
         AWS_ECS_SERVICE_PROD = 'LearnJenkinsApp-Service-Prod'
         AWS_ECS_TD_PROD = 'LearnJenkinsApp-TaskDefinition-Prod'
-        APP_NAME = 'LearnJinkinsApp'
+        APP_NAME = 'learnjenkinsapp'
     }
 
     stages {
