@@ -18,7 +18,7 @@ pipeline {
             }
 
             environment {
-                AWS_S3_BUKCET = 'learn-jenkins-20240805'
+                AWS_S3_BUCKET = 'learn-jenkins-20240805'
             }
 
             steps {
