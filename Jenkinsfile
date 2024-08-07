@@ -22,7 +22,7 @@ pipeline {
         stage('Build app') {
             agent {
                 docker {
-                    image 'my-playwright'
+                    image 'node:18-alpine'
                     reuseNode true
                 }
             }
@@ -43,8 +43,8 @@ pipeline {
             agent {
                 docker {
                     image 'my-aws-cli'
-                    args "-u root -v /var/run/docker.sock:/var/run/docker.sock --entrypoint=''"
                     reuseNode true
+                    args "-u root -v /var/run/docker.sock:/var/run/docker.sock --entrypoint=''"
                 }
             }
 
